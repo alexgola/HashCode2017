@@ -1,5 +1,7 @@
 ﻿using System;
+using HashCode2017.Costants;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using HashCode2017.Entities;
 
@@ -7,45 +9,54 @@ namespace HashCode2017
 {
 	public static class VideoServerEngine
 	{
-		
-		static BufferModel BufferModel = new BufferModel(new List<VideoServerRankModel> { 
-			new VideoServerRankModel(0, 0, 100.0),
-			new VideoServerRankModel(0, 1, 120.0),
-			new VideoServerRankModel(0, 2, 300.0),
-			new VideoServerRankModel(1, 0, 500.0),
-			new VideoServerRankModel(1, 1, 180.0),
-			new VideoServerRankModel(1, 3, 400.0),
-			new VideoServerRankModel(2, 0, 130.0),
-			new VideoServerRankModel(2, 1, 10.0),
-			new VideoServerRankModel(2, 2, 700.0),
-			new VideoServerRankModel(3, 0, 190.0),
-			new VideoServerRankModel(3, 1, 900.0),
-			new VideoServerRankModel(3, 2, 140.0),
-			new VideoServerRankModel(4, 0, 400.0),
-			new VideoServerRankModel(4, 1, 500.0),
-			new VideoServerRankModel(4, 2, 140.0),
-			new VideoServerRankModel(5, 0, 430.0),
-			new VideoServerRankModel(5, 1, 670.0),
-			new VideoServerRankModel(5, 2, 270.0)
-		});
-
-		public static List<VideoServerRankModel> CheckCacheSize(List<Video> videos, int cacheSize) {
+		public static List<VideoServerRankModel> CheckCacheSize(BufferModel bufferModel, List<Video> videos, int cacheSize) {
 			Dictionary<int, int> sizes = new Dictionary<int, int>();
 
 			for (int i = 0; i < videos.Count; i++) {
 				sizes.Add(videos[i].Id, videos[i].Size);
 			}
 
-			return BufferModel.List.Where(vsr => sizes[vsr.VideoId] < cacheSize).ToList();
+			return bufferModel.List.Where(vsr => sizes[vsr.VideoId] < cacheSize).ToList();
 
 		}
 
-		public static void Calculate(InputModel input) {
-			
+		public static void WriteFile(List<CacheServer> cacheServers)
+		{
+			var file = File.Create(Strings.OUTPUT_FILE_NAME);
+			file.Close();
+			using (StreamWriter outfile = new StreamWriter(Strings.OUTPUT_FILE_NAME, true))
+			{
+				outfile.WriteLine(cacheServers.Count);
 
+				foreach (CacheServer server in cacheServers)
+				{
+					outfile.WriteLine(server.Id+" "+string.Join(" ", server.Videos.Select(video=>video.Id.ToString())));
+				}
+			}
 		}
 
+		public static void CalculateCaches(InputModel input, BufferModel bufferModel)
+		{
+			List<VideoServerRankModel> filteredVideoServerRank = CheckCacheSize(bufferModel, input.Videos.ToList(), input.CacheSize);
 
+			List<CacheServer> cacheServers = input.ChaceServers.ToList();
 
+			for (int i = 0; i < filteredVideoServerRank.Count; i++)
+			{
+				VideoServerRankModel vsr = filteredVideoServerRank[i];
+				Video video = input.Videos[vsr.VideoId];
+				CacheServer cacheServer = cacheServers[vsr.ServerId];
+
+				if (cacheServer.CanAdd(video))
+				{
+					cacheServer.AddVideo(video);
+				}
+			}
+
+			cacheServers = cacheServers.Where(s => s.Videos.Count != 0).ToList();
+
+			WriteFile(cacheServers);
+
+		}
 	}
 }
