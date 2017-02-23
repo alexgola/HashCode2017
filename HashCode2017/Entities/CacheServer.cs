@@ -7,17 +7,14 @@ namespace HashCode2017
 	public class CacheServer
 	{
 		public int Id;
-		public int Latency;
 		public int TotalSize;
 		public int TotalUsed;
 		public int RemainingSize;
 		public List<Video> Videos;
 
-		public CacheServer(string line, int totalSize)
+		public CacheServer(int id, int totalSize)
 		{
-			var values = line.Split(',').ToArray();
-			Id = Convert.ToInt32(values[0]);
-			Latency = Convert.ToInt32(values[1]);
+			Id = id;
 			TotalSize = totalSize;
          	TotalUsed = 0;
          	RemainingSize = 0;
@@ -35,6 +32,11 @@ namespace HashCode2017
 			this.RemainingSize = TotalSize - TotalUsed;
 
 			Videos.Add(video); 
+		}
+
+		public bool ContainsVideo(Video video)
+		{
+			return this.Videos.Where(e => e.Id == video.Id).Count() > 0;
 		}
 
 
