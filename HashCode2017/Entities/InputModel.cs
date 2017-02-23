@@ -15,10 +15,7 @@ namespace HashCode2017.Entities
 		DataCenter DataCenter;
 		CacheServer[] ChaceServers;
 		EndPoint[] endpoints;
-
 		int CacheSize; 
-
-
        
         public InputModel(string fileName)
         {
