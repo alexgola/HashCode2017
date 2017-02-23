@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HashCode2017.Managers;
 
 namespace HashCode2017
 {
@@ -16,6 +17,8 @@ namespace HashCode2017
             OutputModel r = new OutputModel();
 
             InputModel input = new InputModel(Strings.INPUT_FILE_NAME);
+
+			var buffer = Ranking.CalculateRanking(input.RequestDescriptions.ToList(), input);
 
             r.WriteFile();
             

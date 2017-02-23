@@ -15,18 +15,15 @@ namespace HashCode2017.Managers
         {
             BufferModel Result = new BufferModel();
 
-            CacheServer[] Caches = input.ChaceServers;
-            EndPoint[] EndPoints = input.EndPoints;
-
-            Parallel.ForEach(requests, (request) =>
+			foreach(var request in requests)
             {
                 EndPoint CurrentEndPoint = request.Endpoint;
                 foreach (Tuple<CacheServer, int> CacheServer in CurrentEndPoint.Caches)
                 {
                     int Rank = 0;
 
-                    List<EndPoint> EndPointsForCurrentCache = 
-                        EndPoints.Where(e => e.Caches.Where(c => c.Item1.Id == CacheServer.Item1.Id).Count() > 0).ToList();
+					List<EndPoint> EndPointsForCurrentCache = CacheServer.Item1.EndPoints.ToList(); 
+
                     EndPointsForCurrentCache = 
                         EndPointsForCurrentCache.Where(e => input.GetVideoRequestsByEndpoint(e).Where(r => r.Video.Id == request.Video.Id).Count() > 0).ToList();
 
@@ -46,10 +43,14 @@ namespace HashCode2017.Managers
                     }
 
                     Result.AddVideoServerRank(new VideoServerRankModel(request.Video.Id, CacheServer.Item1.Id, Rank));
-                }
-            });
 
-            return Result;
+                }
+            }
+
+
+			Result.List = Result.List.OrderBy(e => e.GainTime).Distinct().ToList();
+
+			return Result; 
         }
     }
 }

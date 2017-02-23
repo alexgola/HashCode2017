@@ -11,6 +11,16 @@ namespace HashCode2017
 		public int TotalUsed;
 		public int RemainingSize;
 		public List<Video> Videos;
+		private Dictionary<int, EndPoint> endpoints;
+
+
+		public IEnumerable<EndPoint> EndPoints 
+		{ 
+			get
+			{
+				return endpoints.Values;
+			}
+		}
 
 		public CacheServer(int id, int totalSize)
 		{
@@ -18,7 +28,8 @@ namespace HashCode2017
 			TotalSize = totalSize;
          	TotalUsed = 0;
          	RemainingSize = 0;
-			Videos = new List<Video>(); 
+			Videos = new List<Video>();
+			endpoints = new Dictionary<int, EndPoint>();
 		}
 
 		public bool CanAdd(Video video)
@@ -37,6 +48,12 @@ namespace HashCode2017
 		public bool ContainsVideo(Video video)
 		{
 			return this.Videos.Where(e => e.Id == video.Id).Count() > 0;
+		}
+
+		public void AddEndpoint(EndPoint endpoint)
+		{
+			if(endpoints.ContainsKey(endpoint.Id))
+				endpoints.Add(endpoint.Id, endpoint);
 		}
 
 

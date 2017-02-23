@@ -71,7 +71,7 @@ namespace HashCode2017.Entities
 						int lat = values[1];
 
 						EndPoints[i].Add(ChaceServers[cacheId], lat);
-
+						ChaceServers[cacheId].AddEndpoint(EndPoints[i]); 
 					}
 				}
 

@@ -56,6 +56,7 @@
     <Compile Include="Entities\BufferModel.cs" />
     <Compile Include="Entities\VideoServerRankModel.cs" />
     <Compile Include="Managers\VideoServerEngine.cs" />
+    <Compile Include="Managers\Ranking.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

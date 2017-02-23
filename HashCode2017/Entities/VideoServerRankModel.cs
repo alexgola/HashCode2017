@@ -1,7 +1,7 @@
 ﻿using System;
 namespace HashCode2017
 {
-	public class VideoServerRankModel
+	public class VideoServerRankModel: IEquatable<VideoServerRankModel>
 	{
 		public int VideoId;
 		public int ServerId;
@@ -14,5 +14,14 @@ namespace HashCode2017
 			GainTime = gainTime;
 		}
 
+
+		public bool Equals(VideoServerRankModel other)
+		{
+			return this.ServerId == other.ServerId && VideoId == other.VideoId; 
+		}
+		public override int GetHashCode()
+		{
+			return VideoId.GetHashCode() ^ ServerId.GetHashCode();
+		}
 	}
 }
