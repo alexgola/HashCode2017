@@ -53,6 +53,8 @@
     <Compile Include="Entities\Video.cs" />
     <Compile Include="Entities\DataCenter.cs" />
     <Compile Include="Entities\EndPoint.cs" />
+    <Compile Include="Entities\BufferModel.cs" />
+    <Compile Include="Entities\VideoServerRankModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
