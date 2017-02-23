@@ -51,7 +51,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\CacheServer.cs" />
     <Compile Include="Entities\Video.cs" />
-    <Compile Include="Entities\DataCenter.cs" />
     <Compile Include="Entities\EndPoint.cs" />
     <Compile Include="Entities\VideoRequestOnEndPoint.cs" />
     <Compile Include="Entities\BufferModel.cs" />
