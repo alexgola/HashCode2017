@@ -8,7 +8,7 @@ namespace HashCode2017
 	public static class VideoServerEngine
 	{
 		
-		static BufferModel bufferModel = new BufferModel(new List<VideoServerRankModel> { 
+		static BufferModel BufferModel = new BufferModel(new List<VideoServerRankModel> { 
 			new VideoServerRankModel(0, 0, 100.0),
 			new VideoServerRankModel(0, 1, 120.0),
 			new VideoServerRankModel(0, 2, 300.0),
@@ -29,10 +29,23 @@ namespace HashCode2017
 			new VideoServerRankModel(5, 2, 270.0)
 		});
 
-		public static void checkCacheSize(InputModel input) {
-			
-			//bufferModel.List.Where(i=>)
+		public static List<VideoServerRankModel> CheckCacheSize(List<Video> videos, int cacheSize) {
+			Dictionary<int, int> sizes = new Dictionary<int, int>();
+
+			for (int i = 0; i < videos.Count; i++) {
+				sizes.Add(videos[i].Id, videos[i].Size);
+			}
+
+			return BufferModel.List.Where(vsr => sizes[vsr.VideoId] < cacheSize).ToList();
+
 		}
+
+		public static void Calculate(InputModel input) {
+			
+
+		}
+
+
 
 	}
 }
