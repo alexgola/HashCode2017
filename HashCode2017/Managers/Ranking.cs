@@ -48,7 +48,7 @@ namespace HashCode2017.Managers
             }
 
 
-			Result.List = Result.List.OrderBy(e => e.GainTime).Distinct().ToList();
+			Result.List = Result.List.OrderByDescending(e => e.GainTime).Distinct().ToList();
 
 			return Result; 
         }

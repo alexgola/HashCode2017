@@ -46,7 +46,6 @@
     <Compile Include="Costants\Ints.cs" />
     <Compile Include="Costants\Strings.cs" />
     <Compile Include="Entities\InputModel.cs" />
-    <Compile Include="Entities\OutputModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\CacheServer.cs" />

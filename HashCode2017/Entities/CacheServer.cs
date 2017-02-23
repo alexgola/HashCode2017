@@ -27,7 +27,7 @@ namespace HashCode2017
 			Id = id;
 			TotalSize = totalSize;
          	TotalUsed = 0;
-         	RemainingSize = 0;
+			RemainingSize = totalSize;
 			Videos = new List<Video>();
 			endpoints = new Dictionary<int, EndPoint>();
 		}
@@ -52,7 +52,7 @@ namespace HashCode2017
 
 		public void AddEndpoint(EndPoint endpoint)
 		{
-			if(endpoints.ContainsKey(endpoint.Id))
+			if(!endpoints.ContainsKey(endpoint.Id))
 				endpoints.Add(endpoint.Id, endpoint);
 		}
 

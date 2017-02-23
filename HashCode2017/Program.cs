@@ -13,14 +13,13 @@ namespace HashCode2017
     class Program
     {
         static void Main(string[] args)
-        {
-            OutputModel r = new OutputModel();
-
+		{
+			
             InputModel input = new InputModel(Strings.INPUT_FILE_NAME);
 
 			var buffer = Ranking.CalculateRanking(input.RequestDescriptions.ToList(), input);
 
-            r.WriteFile();
+			VideoServerEngine.CalculateCaches(input, buffer);
             
         }
     }
