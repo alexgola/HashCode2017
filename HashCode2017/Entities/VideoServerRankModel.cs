@@ -3,12 +3,16 @@ namespace HashCode2017
 {
 	public class VideoServerRankModel
 	{
-		public int videoId;
-		public int serverId;
-		public float rank;
+		public int VideoId;
+		public int ServerId;
+		public float Rank;
 
-		public VideoServerRankModel()
+		public VideoServerRankModel(int videoId, int serverId, float rank)
 		{
+			VideoId = videoId;
+			ServerId = serverId;
+			Rank = rank;
 		}
+
 	}
 }
