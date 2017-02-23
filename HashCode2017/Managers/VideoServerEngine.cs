@@ -31,7 +31,7 @@ namespace HashCode2017
 
 		public static void checkCacheSize(InputModel input) {
 			
-			bufferModel.List.Where(i=>)
+			//bufferModel.List.Where(i=>)
 		}
 
 	}

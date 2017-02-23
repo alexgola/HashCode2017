@@ -14,7 +14,8 @@ namespace HashCode2017.Entities
 		public Video[] Videos;
 		public CacheServer[] ChaceServers;
 		public EndPoint[] EndPoints;
-		public VideoRequestOnEndPoint[] RequestDescriptions; 
+		public VideoRequestOnEndPoint[] RequestDescriptions;
+		private Dictionary<int, List<VideoRequestOnEndPoint>> list = new Dictionary<int, List<VideoRequestOnEndPoint>>();
 
 		public int CacheSize; 
        
@@ -61,6 +62,7 @@ namespace HashCode2017.Entities
 					int totalCaches = values[1];
 
 					EndPoints[i] = new EndPoint(i, datacenterLat);
+					list.Add(i, new List<VideoRequestOnEndPoint>());
 					for (int k = 0; k < totalCaches; k++)
 					{
 						CurrentRow = sr.ReadLine();
@@ -83,12 +85,21 @@ namespace HashCode2017.Entities
 					int videoNumber = values[0];
 					int endpoint = values[1];
 
-					RequestDescriptions[i] = new VideoRequestOnEndPoint(Videos[videoNumber], EndPoints[endpoint], requestNumbers); 
-
+					RequestDescriptions[i] = new VideoRequestOnEndPoint(Videos[videoNumber], EndPoints[endpoint], requestNumbers);
+					list[endpoint].Add(RequestDescriptions[i]);
 				}
 
 			}
 
         }
+
+		public IEnumerable<VideoRequestOnEndPoint> GetVideoRequestsByEndpoint(EndPoint endpoint)
+		{
+			return GetVideoRequestsByEndpoint(endpoint.Id); 
+		}
+		public IEnumerable<VideoRequestOnEndPoint> GetVideoRequestsByEndpoint(int endpoint)
+		{
+			return list[endpoint]; 
+		}
     }
 }
