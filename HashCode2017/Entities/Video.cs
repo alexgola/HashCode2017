@@ -5,6 +5,7 @@ namespace HashCode2017
 {
 	public class Video
 	{
+		public int Id; 
 		public int Size;
 
 
