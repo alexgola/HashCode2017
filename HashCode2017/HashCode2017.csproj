@@ -53,6 +53,7 @@
     <Compile Include="Entities\Video.cs" />
     <Compile Include="Entities\DataCenter.cs" />
     <Compile Include="Entities\EndPoint.cs" />
+    <Compile Include="Entities\VideoRequestOnEndPoint.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

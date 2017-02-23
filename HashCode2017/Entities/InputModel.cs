@@ -13,8 +13,10 @@ namespace HashCode2017.Entities
 
 		Video[] Videos;
 		DataCenter DataCenter;
-		CacheServer[] ChaceServers; 
+		CacheServer[] ChaceServers;
+		EndPoint[] endpoints;
 
+		int CacheSize; 
 
 
        
@@ -23,9 +25,16 @@ namespace HashCode2017.Entities
             using (StreamReader sr = new StreamReader(fileName))
             {
                 string CurrentRow  = sr.ReadLine();
+				//5 videos, 2 endpoints, 4 request descriptions, 3 caches 100MB each.
+				var values = CurrentRow.Split(',').Select(e => Convert.ToInt32(e)).ToArray();
+				int VideosNumber = values[0];
+				int EndPoints = values[1]; 
+				int Request = values[2];
+				CacheSize = values[3]; 
 
-        		
-            }
+
+
+			}
 
         }
     }
