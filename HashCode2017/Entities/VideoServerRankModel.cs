@@ -5,13 +5,13 @@ namespace HashCode2017
 	{
 		public int VideoId;
 		public int ServerId;
-		public float Rank;
+		public double GainTime;
 
-		public VideoServerRankModel(int videoId, int serverId, float rank)
+		public VideoServerRankModel(int videoId, int serverId, double gainTime)
 		{
 			VideoId = videoId;
 			ServerId = serverId;
-			Rank = rank;
+			GainTime = gainTime;
 		}
 
 	}
