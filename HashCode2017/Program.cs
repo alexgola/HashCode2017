@@ -14,6 +14,7 @@ namespace HashCode2017
         static void Main(string[] args)
         {
             OutputModel r = new OutputModel();
+
             InputModel input = new InputModel(Strings.INPUT_FILE_NAME);
 
             r.WriteFile();
