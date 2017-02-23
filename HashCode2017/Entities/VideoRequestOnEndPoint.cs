@@ -7,8 +7,11 @@ namespace HashCode2017
 		public EndPoint Endpoint;
 		public int RequestsNumber; 
 
-		public VideoRequestOnEndPoint()
+		public VideoRequestOnEndPoint(Video video, EndPoint endpoint, int requestsNumber)
 		{
+			Video = video;
+			Endpoint = endpoint;
+			RequestsNumber = requestsNumber;
 		}
 	}
 }

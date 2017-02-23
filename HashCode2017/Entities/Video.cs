@@ -9,9 +9,10 @@ namespace HashCode2017
 		public int Size;
 
 
-		public Video(string line)
+		public Video(int size, int id)
 		{
-			Size = Convert.ToInt32(line);
+			Id = id; 
+			Size = size;
 		}
 	}
 }

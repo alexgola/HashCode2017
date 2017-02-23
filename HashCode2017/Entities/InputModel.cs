@@ -11,11 +11,11 @@ namespace HashCode2017.Entities
     public class InputModel
     {
 
-		Video[] Videos;
-		DataCenter DataCenter;
-		CacheServer[] ChaceServers;
-		EndPoint[] endpoints;
-		int CacheSize; 
+		public Video[] Videos;
+		public DataCenter DataCenter;
+		public CacheServer[] ChaceServers;
+		public EndPoint[] endpoints;
+		public int CacheSize; 
        
         public InputModel(string fileName)
         {
@@ -27,7 +27,27 @@ namespace HashCode2017.Entities
 				int VideosNumber = values[0];
 				int EndPoints = values[1]; 
 				int Request = values[2];
-				CacheSize = values[3]; 
+				int cacheNumbers = values[3]; 
+				CacheSize = values[4];
+
+
+				// videos
+				CurrentRow = sr.ReadLine();
+				values = CurrentRow.Split(',').Select(e => Convert.ToInt32(e)).ToArray();
+				Videos = new Video[VideosNumber]; 
+				for (int i = 0; i < VideosNumber; i++)
+				{
+					Videos[i] = new Video(values[i], i);
+				}
+
+				//create cache 
+				ChaceServers = new CacheServer[cacheNumbers]; 
+				for (int i = 0; i < cacheNumbers; i++)
+				{
+					ChaceServers[i] = new CacheServer(i, CacheSize);
+				}
+
+				// create Endpoiny
 
 
 
