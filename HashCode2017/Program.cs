@@ -17,7 +17,7 @@ namespace HashCode2017
 			
             InputModel input = new InputModel(Strings.INPUT_FILE_NAME);
 
-			var buffer = Ranking.CalculateRanking(input.RequestDescriptions.ToList(), input);
+			var buffer = Ranking.CalculateRanking(input.RequestDescriptions, input);
 
 			VideoServerEngine.CalculateCaches(input, buffer);
             

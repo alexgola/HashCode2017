@@ -87,6 +87,9 @@ namespace HashCode2017.Entities
 
 					RequestDescriptions[i] = new VideoRequestOnEndPoint(Videos[videoNumber], EndPoints[endpoint], requestNumbers);
 					list[endpoint].Add(RequestDescriptions[i]);
+
+
+					EndPoints[endpoint].Add(Videos[videoNumber]);
 				}
 
 			}

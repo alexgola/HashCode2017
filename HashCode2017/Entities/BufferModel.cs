@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace HashCode2017
@@ -12,10 +13,6 @@ namespace HashCode2017
 			List = new List<VideoServerRankModel>();
 		}
 
-		public BufferModel(List<VideoServerRankModel> list)
-		{
-			List = list;
-		}
 
 		public void AddVideoServerRank(VideoServerRankModel vsr)
 		{

@@ -4,51 +4,51 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Concurrent;
 
 namespace HashCode2017.Managers
 {
     public class Ranking
     {
         public static BufferModel CalculateRanking(
-            List<VideoRequestOnEndPoint> requests,
+            VideoRequestOnEndPoint[] requests,
             InputModel input)
         {
             BufferModel Result = new BufferModel();
 
-			foreach(var request in requests)
-            {
-                EndPoint CurrentEndPoint = request.Endpoint;
-                foreach (Tuple<CacheServer, int> CacheServer in CurrentEndPoint.Caches)
-                {
-                    int Rank = 0;
+			ConcurrentBag<VideoServerRankModel> listResult = new ConcurrentBag<VideoServerRankModel>();
 
-					List<EndPoint> EndPointsForCurrentCache = CacheServer.Item1.EndPoints.ToList(); 
+			Parallel.For(0, requests.Length, i =>
+			{
+				if (requests[i].Video.Size <= input.CacheSize)
+				{
+					EndPoint CurrentEndPoint = requests[i].Endpoint;
 
-                    EndPointsForCurrentCache = 
-                        EndPointsForCurrentCache.Where(e => input.GetVideoRequestsByEndpoint(e).Where(r => r.Video.Id == request.Video.Id).Count() > 0).ToList();
+					foreach (Tuple<CacheServer, int> CacheServer in CurrentEndPoint.Caches)
+					{
+						int Rank = 0;
 
-                    foreach (EndPoint EndPointToRank in EndPointsForCurrentCache)
-                    {
-                        int LatencyToDataCenter = EndPointToRank.DatacenterLatency;
-                        Tuple<CacheServer, int> Couple =
-                            EndPointToRank.Caches.Where(e => e.Item1.Id == CacheServer.Item1.Id).FirstOrDefault();
-                        int LatencyToCurrentCacheServer = 0;
-                        if (Couple != null)
-                            LatencyToCurrentCacheServer = Couple.Item2;
+						IEnumerable<EndPoint> EndPointsForCurrentCache = CacheServer.Item1.EndPoints.Where(e => e.ContainsVideo(requests[i].Video));
 
-                        int PartialRank = LatencyToDataCenter - LatencyToCurrentCacheServer;
+						foreach (EndPoint EndPointToRank in EndPointsForCurrentCache)
+						{
+							int LatencyToDataCenter = EndPointToRank.DatacenterLatency;
+							int LatencyToCurrentCacheServer = CacheServer.Item2;
 
-                        if (PartialRank > 0)
-                            Rank = Rank + PartialRank;
-                    }
+							int PartialRank = LatencyToDataCenter - LatencyToCurrentCacheServer;
 
-                    Result.AddVideoServerRank(new VideoServerRankModel(request.Video.Id, CacheServer.Item1.Id, Rank));
+							if (PartialRank > 0)
+								Rank = Rank + PartialRank;
+						}
 
-                }
-            }
+						listResult.Add(new VideoServerRankModel(requests[i].Video.Id, CacheServer.Item1.Id, Rank));
+
+					}
+				}
+			});
 
 
-			Result.List = Result.List.OrderByDescending(e => e.GainTime).Distinct().ToList();
+			Result.List = listResult.OrderByDescending(e => e.GainTime).Distinct().ToList();
 
 			return Result; 
         }
